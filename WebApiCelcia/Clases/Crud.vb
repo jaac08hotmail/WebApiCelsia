@@ -11,21 +11,23 @@
             Dim usuario As New Usuario
             Dim modulos As New List(Of Modulo)
 
-            Dim QRY As String = "select IDUser,Unombres,IDRol,Rnombre,IDMod from Usuario,Rol,Modulo " &
-                                " where Ulogin='" & user.login & "' and Upasw = '" & user.passw & "' and UFkRol = IDRol and MFkRol = IDRol "
+            Dim QRY As String
+
+            QRY = "select IDUser,Unombres,IDRol,Rnombre,PfkMod from Usuario,Rol,perfil " &
+                                " where Ulogin='" & user.login & "' and Upasw = '" & user.passw & "' and UFkRol = IDRol and IDRol = PfkRol "
 
             ds = Conexion.QryDatos(QRY)
             dt = ds.Tables(0)
             If Not dt Is Nothing Then
                 For Each dRow As DataRow In dt.Rows
                     usuario.IDUser = dRow("IDUser")
-                    usuario.Rnombre = dRow("Rnombres")
+                    usuario.Rnombre = dRow("Rnombre")
                     usuario.UFkRol = dRow("IDRol")
                     usuario.Rnombre = dRow("Rnombre")
 
                     Dim modulo As New Modulo
 
-                    modulo.IDMod = dRow("IDMod")
+                    modulo.IDMod = dRow("PfkMod")
                     modulos.Add(modulo)
                 Next
             End If
